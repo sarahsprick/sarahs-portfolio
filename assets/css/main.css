@@ -100,9 +100,9 @@ input, select, textarea {
 	body, input, select, textarea {
 		color: #a2a2a2;
 		font-family: "Source Sans Pro", Helvetica, sans-serif;
-		font-size: 16pt;
+		font-size: 14pt;
 		font-weight: 400;
-		line-height: 1.75em;
+		line-height: 1.5em;
 	}
 
 	a {
@@ -137,8 +137,8 @@ input, select, textarea {
 	h1, h2, h3, h4, h5, h6 {
 		color: #787878;
 		font-weight: 400;
-		line-height: 1em;
-		margin: 0 0 1em 0;
+		line-height: normal;
+		margin: 0 1em 0 0;
 	}
 
 		h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
@@ -148,32 +148,32 @@ input, select, textarea {
 
 	h1 {
 		font-size: 2em;
-		line-height: 1.5em;
+		line-height: normal;
 	}
 
 	h2 {
 		font-size: 1.5em;
-		line-height: 1.5em;
+		line-height: normal;
 	}
 
 	h3 {
 		font-size: 1.25em;
-		line-height: 1.5em;
+		line-height: normal;
 	}
 
 	h4 {
 		font-size: 1.1em;
-		line-height: 1.5em;
+		line-height: normal;
 	}
 
 	h5 {
 		font-size: 0.9em;
-		line-height: 1.5em;
+		line-height: normal;
 	}
 
 	h6 {
 		font-size: 0.7em;
-		line-height: 1.5em;
+		line-height: normal;
 	}
 
 	sub {
@@ -454,7 +454,7 @@ input, select, textarea {
 		}
 
 			.row.gtr-25 > * {
-				padding: 0 0 0 0.625em;
+				padding: 0 0 0 0em;
 			}
 
 			.row.gtr-25.gtr-uniform {
@@ -462,7 +462,7 @@ input, select, textarea {
 			}
 
 				.row.gtr-25.gtr-uniform > * {
-					padding-top: 0.625em;
+					padding-top: 0em;
 				}
 
 		.row.gtr-50 {
@@ -471,7 +471,7 @@ input, select, textarea {
 		}
 
 			.row.gtr-50 > * {
-				padding: 0 0 0 1.25em;
+				padding: 0 0 0 0em;
 			}
 
 			.row.gtr-50.gtr-uniform {
@@ -479,7 +479,7 @@ input, select, textarea {
 			}
 
 				.row.gtr-50.gtr-uniform > * {
-					padding-top: 1.25em;
+					padding-top: 0em;
 				}
 
 		.row {
@@ -496,7 +496,7 @@ input, select, textarea {
 			}
 
 				.row.gtr-uniform > * {
-					padding-top: 2.5em;
+					padding-top: 0em;
 				}
 
 		.row.gtr-150 {
@@ -505,7 +505,7 @@ input, select, textarea {
 		}
 
 			.row.gtr-150 > * {
-				padding: 0 0 0 3.75em;
+				padding: 0 0 0 0em;
 			}
 
 			.row.gtr-150.gtr-uniform {
@@ -513,7 +513,7 @@ input, select, textarea {
 			}
 
 				.row.gtr-150.gtr-uniform > * {
-					padding-top: 3.75em;
+					padding-top: 0em;
 				}
 
 		.row.gtr-200 {
@@ -522,7 +522,7 @@ input, select, textarea {
 		}
 
 			.row.gtr-200 > * {
-				padding: 0 0 0 5em;
+				padding: 0 0 0 0em;
 			}
 
 			.row.gtr-200.gtr-uniform {
@@ -530,7 +530,7 @@ input, select, textarea {
 			}
 
 				.row.gtr-200.gtr-uniform > * {
-					padding-top: 5em;
+					padding-top: 0em;
 				}
 
 		@media screen and (max-width: 1800px) {
@@ -1711,11 +1711,11 @@ input, select, textarea {
 				}
 
 					.row > * {
-						padding: 0 0 0 1.5em;
+						padding: 0 0 0 0em;
 					}
 
 					.row.gtr-uniform {
-						margin-top: -1.5em;
+						margin-top: 0em;
 					}
 
 						.row.gtr-uniform > * {
@@ -1728,11 +1728,11 @@ input, select, textarea {
 				}
 
 					.row.gtr-150 > * {
-						padding: 0 0 0 2.25em;
+						padding: 0 0 0 0em;
 					}
 
 					.row.gtr-150.gtr-uniform {
-						margin-top: -2.25em;
+						margin-top: 0em;
 					}
 
 						.row.gtr-150.gtr-uniform > * {
@@ -1745,7 +1745,7 @@ input, select, textarea {
 				}
 
 					.row.gtr-200 > * {
-						padding: 0 0 0 3em;
+						padding: 0 0 0 0em;
 					}
 
 					.row.gtr-200.gtr-uniform {
@@ -1767,27 +1767,27 @@ input, select, textarea {
 	header p {
 		color: #b2b2b2;
 		position: relative;
-		margin: 0 0 1.5em 0;
+		margin: 0 1em 0 0;
 	}
 
 	header h2 + p {
 		font-size: 1.25em;
 		margin-top: -1em;
-		line-height: 1.5em;
+		line-height: normal;
 	}
 
 	header h3 + p {
 		font-size: 1.1em;
 		margin-top: -0.8em;
-		line-height: 1.5em;
+		line-height: normal;
 	}
 
 	header h4 + p,
 	header h5 + p,
 	header h6 + p {
 		font-size: 0.9em;
-		margin-top: -0.6em;
-		line-height: 1.5em;
+		margin-top: -0.2em;
+		line-height: normal;
 	}
 
 	header.major h2 {
@@ -1982,7 +1982,7 @@ input, select, textarea {
 	.box {
 		border-radius: 0.35em;
 		border: solid 2px #efefef;
-		margin-bottom: 2em;
+		margin-bottom: 0;
 		padding: 1.5em;
 	}
 
@@ -2634,7 +2634,7 @@ input, select, textarea {
 		#header h1 {
 			color: rgba(255, 255, 255, 0.5);
 			font-size: 1.35em;
-			line-height: 1.75em;
+			line-height: normal;
 			margin: 0;
 		}
 
@@ -2684,14 +2684,14 @@ input, select, textarea {
 	#main {
 		margin-left: 35%;
 		max-width: 54em;
-		padding: 8em 4em 4em 4em;
+		padding: 4em 4em 4em 4em;
 		width: calc(100% - 35%);
 	}
 
 		#main > section {
-			border-top: solid 2px #efefef;
-			margin: 4em 0 0 0;
-			padding: 4em 0 0 0;
+			border-top: solid 1px #efefef;
+			margin: 0 1em 0 0;
+			padding: 1em 0 0 0;
 		}
 
 			#main > section:first-child {

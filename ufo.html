@@ -1,0 +1,218 @@
+<!DOCTYPE HTML>
+<!--
+	Strata by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Sarah Sprick Portfolio</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<div class="inner">
+					<a class="image avatar"><img src="images/IMG_4222.jpg" alt="" /></a>
+					<h1><strong>Sarah Sprick</strong></h1>
+					<p >Data Analytics</p>
+                    <br />
+					<a href="index.html" class="button" style="background-color: white; opacity: .4">Home</a>
+					<!--<br />
+					<br />
+					<a href="portfolio.html" class="button" style="background-color: white; opacity: .4">Full Portfolio</a>
+				</div> -->
+			</header>
+
+		<!-- Main -->
+			<div id="main">
+
+				<!-- One -->
+
+                    <section id="ufo">
+						<h2>United States UFO Sightings&nbsp;&nbsp;&nbsp;<img src="images/icons/python - Edited.png" alt="" width="30" />&nbsp;<img src="images/icons/tableau-icon - Edited.png" alt="" width="30" /></h2>
+                        <h5>November 2022</h5>
+                        <br />
+                        <ul class="actions">
+                            <li><a href="https://github.com/sarahsprick/Maven-UFO-Sightings/blob/main/UFO%20Sightings%20Analysis.ipynb" class="button" target="_blank" rel="noopener noreferrer">Jupyter Notebook
+                            </a></li>
+                            <li><a href="https://github.com/sarahsprick/Maven-UFO-Sightings" class="button" target="_blank" rel="noopener noreferrer">GitHub Repository
+                            </a></li>  
+                            <li><a href="https://public.tableau.com/app/profile/sarah5637/viz/UFOSightings_16689701565220/Dashboard1" target="_blank" rel="noopener noreferrer" class="button">Tableau Dashboard
+                            </a></li>
+                        </ul>
+						<p style="line-height:100%"><span style="font-size: 15px">
+                            In this project, I explore the UFO Sightings dataset from Maven Analtics’s <a href="https://www.mavenanalytics.io/data-playground" target="_blank" rel="noopener noreferrer">data playground</a>. Although I may not believe in aliens in the way they are commonly depicted in the media, I still thought this would be an interesting dataset to explore
+                            <br /><br /> 
+                            My process from the uncleaned data to an aesthetcally pleasing visual was to load the dataset into a Jupyter Notebook to clean and explore then transform the pandas DataFrame to a csv to be used in a Tableau dashboard.
+                        </p></span>
+
+                        <h3>Data</h3>
+                        <br />
+                        <p style="line-height:100%"><span style="font-size: 15px">
+                            As previously stated, the data for this project was downloaded from Maven Analytic’s <a href="https://www.mavenanalytics.io/data-playground" target="_blank" rel="noopener noreferrer">data playground</a>. The .csv file includes 11 columns and 80,332 rows of UFO sightings across the world from 1909 to 2014. The columns include field such as city, state, country, lat/long, shape, duration, date/time, and comments. Per Maven Analytic’s site, the dat was added on 9/9/2020 and originally sourced from the National UFO Reporting Center.
+                        </p></span>
+
+                        <h5>Import & Cleaning</h5>
+                        <br />
+                        <p style="line-height:100%"><span style="font-size: 15px">
+                            The first thing I do whenever starting with a new dataset is run a <strong>for</strong> loop that converts the column names to lowercase and snake case. This makes it easier for future me to reference the columns.
+                            <br /><br />
+                            <img src="images/ufo/1.png" alt=""  width="700" />
+                            <br /><br />
+                            I am going to focus my analysis on UFO sightings that occurred in the United States. Created a new DataFrame called <strong>ufo_us</strong> which includes all rows where the country is equal to <strong>us</strong>. This narrowed down the number of rows being analyzed from 80,332 to 65,114.
+                            <br /><br />
+                            <img src="images/ufo/2.png" alt=""  width="700" />
+                            <br /><br />
+                            The <strong>ufo_us</strong> DataFrame contains rows where the sighting occurred in US territories (ex. Puerto Rico). To narrow down the DataFrame even further, I created a list of the 50 states and am overwiting the ufo_us DataFrame where values in the state column are in the list of states. This narrowed down the number of rows being analyzed from 65,114 to 65,082.
+                            <br /><br />
+                            <img src="images/ufo/3.png" alt=""  width="700" />
+                            <br /><br />
+                            The comments column includes HTML character codes rather than the characters themselves. I replaced the code with their respective characters.
+                            <br /><br />
+                            <img src="images/ufo/6.png" alt=""  width="700" />
+                            <br /><br />
+                            There was some additional cleaning performed on the dataset, but the above is just a summary of the most notable items. Check out the Jupyter Notebook file to see all cleaning.
+                        </p></span>
+
+                        <h3>Exploration</h3>
+                        <br />
+                        <p style="line-height:100%"><span style="font-size: 15px">
+                            To gain a better understaing of the data, I performed some exploratory data analysis. This is simple code to see either summary statistics or to get a better understanding of the data characteristics. Below are the questions provided by Maven Analytics for suggested analysis:
+                            <br /><br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1. Figure out which shapes of UFOs tend to be seen most often.
+                            <br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2. Take a look at data since the year 2000. How have annual sightings trended?
+                            <br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3. Dig into the US data. Which states report the most UFO sightings? What do you think about this?
+                            <br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4. Create a histogram to understand the distribution of the duration of UFO sightings (you'll need to do some cleaning first)
+                            <br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5. Look at the data in the comments column. What other interesting insights can you pull out of this data?
+                            <br /><br />
+                            I used these questions as inspiration for my analysis, but did not following them 100%. There were aspects of their questions that I found interested and from there, branched off to my own interests about the data.
+                            <br /><br />
+                            <strong>What shapes of UFOs tend to be seen most often?</strong> The 'light' shape was seen most often at 21.2% of total sightings or 13,471 total times. The 'triangle' shape was seen second most at 10.3% or 6,548 times.
+                            <br /><br />
+                            <img src="images/ufo/7.png" alt=""  width="700" />
+                            <br /><br />
+                            <strong>Take a look at data since the year 2000. How have annual sightings trended?</strong> Since 2000, the number of sightings by year saw an overall upward trend and peaked in 2012. After the peak, the number of sightings drastically decreased.
+                            <br /><br />
+                            <img src="images/ufo/8.png" alt=""  width="700" />
+                            <br /><br />
+                            <strong>Which states report the most UFO sightings? What do you think about this?</strong> 'california' saw the most sightings with a total of 8,912 or 13.7% of total sightings. Two factors I believe may play into this are that it is the most populous state and moving east away from the coast, the desert terrain offers clearer skies for sightings.
+                            <br /><br />
+                            <img src="images/ufo/9.png" alt=""  width="700" />
+                            <br /><br />
+                            <strong>What time of day did most sightings occur?</strong> To better visualize this, I created a new column called time_category which bins the datetime column into the following categories: '0:00 - 3:59', '4:00 - 7:59', '8:00 - 11:59', '12:00 - 15:59', '16:00 - 19:59', '20:00 - 23:59'. There were a total of 31,836 sightings or 48.9% of total sightings during the 8:00 PM - 11:59 PM bin. This may be due to the requirement of darkness to better see anomalies in the sky.
+                            <br /><br />
+                            <img src="images/ufo/10.png" alt=""  width="700" />
+                            <img src="images/ufo/11.png" alt=""  width="700" />
+                            <br /><br />
+                            <strong>What is the typical duration for a UFO sighting?</strong> Created a new column called duration_(minutes) which is simply the duration_(seconds) converted to minutes. Placed these values on a box and whisker plot (excluding outliers). The long upper whisker indicates that there may be a larger variance among the greater values in the fourth quartile. duration_(minutes) is positively skewed. The median duration is around 3 minutes.
+                            <br /><br />
+                            <img src="images/ufo/12.png" alt=""  width="700" />
+                            <br /><br />
+                            <strong>Which months have the most sightings?</strong> The most sightings were in 'july.' There were a total of 7,649 sightings or 11.8% of the total.
+                            <img src="images/ufo/13.png" alt=""  width="700" />
+                            <img src="images/ufo/14.png" alt=""  width="700" />
+                            <br /><br />
+                            <strong>Which words occurred most in the comments?</strong> Used .split(), .explode(), and to_list() to create a list of all words in the comments column. Then, used .most_common() to better understand which words were used most. Besides the determiners, some of the most frequent words were 'light(s)', 'over', 'object', 'sky', 'moving', etc.
+                            <br /><br />
+                            <img src="images/ufo/15.png" alt=""  width="700" />
+                        </p></span>
+
+                        <h3>Visualization</h3>
+                        <p style="line-height:100%"><span style="font-size: 15px">
+                            <br />
+                            I was super excited to visualize this data because of the geospatial columns. Maps are one of my favorite kinds of visuals. After cleaning and doing some exploratory data analysis in Jupyter Notebook, I saved the DataFrame to as <strong>.csv</strong> and loaded it into Tableau. A new technique that I tried was using Canva to create the background image for the dashboard. I did not create anything too complex, but it was fun to incorporate another medium to the visualization process!
+                        </p></span>
+
+                        <h5>Embedded Tableau Dashboard</h5>
+                        <p style="line-height:100%"><span style="font-size: 15px">
+                            <br />
+                            (Apologies for the embedded dashboard being cut off. Check out the full dashboard <a href="https://public.tableau.com/views/UFOSightings_16689701565220/Dashboard1?:language=en-US&:display_count=n&:origin=viz_share_link" target="_blank" rel="noopener noreferrer">here</a>!)
+                        </p></span>
+
+                            <div class='tableauPlaceholder' id='viz1670629873328' style='position: relative'><noscript>
+                                <a href='#'><img alt='Dashboard 1 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;UF&#47;UFOSightings_16689701565220&#47;Dashboard1&#47;1_rss.png' style='border: none' />
+                                </a>
+                            </noscript>
+                            <object class='tableauViz'  style='display:none;'>
+                                <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> 
+                                <param name='embed_code_version' value='3' /> 
+                                <param name='site_root' value='' />
+                                <param name='name' value='UFOSightings_16689701565220&#47;Dashboard1' />
+                                <param name='tabs' value='no' />
+                                <param name='toolbar' value='yes' />
+                                <param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;UF&#47;UFOSightings_16689701565220&#47;Dashboard1&#47;1.png' /> 
+                                <param name='animate_transition' value='yes' />
+                                <param name='display_static_image' value='yes' />
+                                <param name='display_spinner' value='yes' />
+                                <param name='display_overlay' value='yes' />
+                                <param name='display_count' value='yes' />
+                                <param name='language' value='en-US' />
+                            </object>
+                        </div>                
+                        <script type='text/javascript'>                    
+                        var divElement = document.getElementById('viz1670629873328');                    
+                        var vizElement = divElement.getElementsByTagName('object')[0];                    
+                        if ( divElement.offsetWidth > 800 ) { 
+                            vizElement.style.width='100%';
+                            vizElement.style.height='800px';} 
+                            else if ( divElement.offsetWidth > 500 ) { 
+                                vizElement.style.width='1080px';
+                                vizElement.style.height='1027px';} 
+                                else { vizElement.style.width='1080px';
+                                vizElement.style.height='1027px';}                     
+                                var scriptElement = document.createElement('script');                    
+                                scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    
+                                vizElement.parentNode.insertBefore(scriptElement, vizElement);                
+                                </script>
+
+                        <br />
+
+                        <p style="line-height:100%"><span style="font-size: 15px">
+                            <strong>Packages Used:</strong>
+                            <br />
+                            ⬥ pandas
+                            <br />
+                            ⬥ numpy
+                            <br />
+                            ⬥ matplotlib
+                            <br />
+                            ⬥ counter
+                            <br /><br />
+                            <!--<a href="portfolio.html#one">Back to Top</a>-->
+                        </p></span>
+					</section>
+
+                </div>
+
+		<!-- Footer -->
+			<footer id="footer">
+				<div class="inner">
+					<ul class="icons">
+						<li><a href="https://www.linkedin.com/in/sarahsprick/" class="icon brands alt fa-linkedin" target="_blank" rel="noopener noreferrer"><span class="label">linkedin</span></a></li>
+						<li><a href="https://github.com/sarahsprick" class="icon brands fa-github" target="_blank" rel="noopener noreferrer"><span class="label">Github</span></a></li>
+						<li><a href="mailto:sarahsprick99@gmail.com" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+					</ul>
+					<ul class="copyright">
+						<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.poptrox.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

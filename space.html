@@ -1,0 +1,266 @@
+<!DOCTYPE HTML>
+<!--
+	Strata by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Sarah Sprick Portfolio</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<div class="inner">
+					<a class="image avatar"><img src="images/IMG_4222.jpg" alt="" /></a>
+					<h1><strong>Sarah Sprick</strong></h1>
+					<p >Data Analytics</p>
+                    <br />
+					<a href="index.html" class="button" style="background-color: white; opacity: .4">Home</a>
+					<br />
+					<br />
+					<!--<a href="portfolio.html" class="button" style="background-color: white; opacity: .4">Full Portfolio</a>-->
+				</div>
+			</header>
+
+		<!-- Main -->
+			<div id="main">
+
+                    <section id="space">
+                        <h2>Space Missions&nbsp;&nbsp;&nbsp;<img src="images/icons/sql-server - Edited.png" alt="" width="30" />&nbsp;<img src="images/icons/tableau-icon - Edited.png" alt="" width="30" /></h2> 
+                        <h5>November 2022</h5>
+                        <br />
+                        <ul class="actions">
+                            <li><a href="https://github.com/sarahsprick/Maven-Space-Missions/blob/main/space_missions_queries.sql" class="button" target="_blank" rel="noopener noreferrer">SQL Queries
+                            </a></li>
+                            <li><a href="https://github.com/sarahsprick/Maven-Space-Missions" target="_blank" rel="noopener noreferrer" class="button">GitHub Repository
+                            </a></li> 
+                            <li><a href="https://public.tableau.com/views/SpaceMissions_16689698297630/Dashboard1?:language=en-US&:display_count=n&:origin=viz_share_link" target="_blank" rel="noopener noreferrer" class="button">Tableau Dashboard
+
+                            </a></li>
+                        </ul>
+						<p style="line-height:100%"><span style="font-size: 15px">
+                            This project explores the Space Missions dataset from Maven Analytic’s <a href="https://www.mavenanalytics.io/data-playground" target="_blank" rel="noopener noreferrer">Data Playground</a>. This specific dataset was used in the company’s <a href="https://www.mavenanalytics.io/blog/maven-space-challenge" target="_blank" rel="noopener noreferrer">Maven Space Challenge</a> (this is basically a challenge where all participants use the same dataset and use their tool of choice to see who can create the best visualization). I found the data too late to actually participate in this challenge, but did utilize their analysis questions and created a visualization as though I was a participant. I thought this dataset looked interesting and wanted to explore it!
+                        </p></span>
+
+                        <h3>Data</h3>
+                        <br />
+                        <p style="line-height:100%"><span style="font-size: 15px">
+                            The dataset was downloaded in .csv format and consisted of 4,630 rows of records each representing a space mission from 1957 to August of 2022 and containing information about the name, location, company, rocket, etc.
+                        </p></span>
+
+                        <h5>Import & Preparation</h5>
+                        <br />
+                        <p style="line-height:100%"><span style="font-size: 15px">
+                            TFor this project, I chose SQL as my tool of choice to clean, transform, and explore the data. To get started, I created a new table in Microsoft SQL Server Management Studio (SSMS) and inserted the data as provided by Maven Analytics 
+                            <br /><br />
+                            I used simple SQL queries to explore the data and create additional columns that would be used later on while visualizing. I chose to keep all columns (even though not all were utilized) because the dataset only contained 9 columns to begin with. In summary, below are some of the notable transformations performed on the data: 
+                            <br /><br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⬥ Used the `MissionStatus` column to create dummy columns containing binary variables for each status
+                            <br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⬥ Parsed `Location` into individual columns for the country, state, base, and site
+                            <br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⬥ New price column which converts previous string format (ex. "1,160" to represent 1,160,000,000) to numeric
+                        </p></span>
+
+                        <h3>Analysis</h3>
+                        <br />
+                        <p style="line-height:100%"><span style="font-size: 15px">
+                            Below are the questions provided by Maven Analytics for suggested analysis:
+                            <br /><br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1. How have rocket launches trended across time? Has mission success rate increased?
+                            <br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2. Which countries have had the most successful space missions? Has it always been that way?
+                            <br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3. Which rocket has been used for the most space missions? Is it still active?
+                            <br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4. Are there any patterns you can notice with the launch locations?
+                            <br /><br />
+                            For the most part, I took these questions into consideration while performing my analysis but definitely did some additional exploring. 
+                        </p></span>
+
+                        <head>
+                            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js">
+                            </script>
+                            <script>hljs.initHighlightingOnLoad();
+                            </script>
+                        </head>
+                            <body>
+                                <pre>
+                                    <code class="sql">
+--Number of missions attempted per year
+
+SELECT DISTINCT 
+    LEFT(date, 4) AS year
+    , COUNT(mission) AS 'Count'
+FROM projects..spacemissions
+GROUP BY LEFT(date, 4)
+ORDER BY LEFT(date, 4)
+
+--Success rate (mission_status = 'Success'/ total missions) by year
+
+WITH cte AS (
+    SELECT *
+        , CASE WHEN missionstatus = 'Success' THEN 1 ELSE 0 END AS status_success
+    FROM projects..spacemissions
+)
+SELECT LEFT(date, 4) AS year
+    , ROUND(((CAST(SUM(status_success) AS FLOAT)/CAST(COUNT(status_success) AS FLOAT)) * 100), 2) AS success_rate
+FROM cte
+GROUP BY LEFT(date, 4)
+
+--Success and failure rates by country
+
+WITH cte AS (
+    SELECT *
+        , CASE WHEN missionstatus = 'Success' THEN 1 ELSE 0 END AS status_success
+        , CASE WHEN missionstatus = 'Failure' THEN 1 ELSE 0 END AS status_fail
+        , REVERSE(left(REVERSE(REPLACE((location), ',', '.')), charindex('.', REVERSE(REPLACE((location), ',', '.')))-1)) AS country
+    FROM projects..spacemissions
+)
+SELECT country
+    , ROUND(((CAST(SUM(status_success) AS FLOAT)/CAST(COUNT(mission) AS FLOAT)) * 100), 2) AS success_rate
+    , ROUND(((CAST(SUM(status_fail) AS FLOAT)/CAST(COUNT(mission) AS FLOAT)) * 100), 2) AS failture_rate
+FROM cte
+GROUP BY country
+
+--Total number of rockets
+
+SELECT COUNT(DISTINCT(rocket)) AS total_rocket_count
+FROM projects..spacemissions
+
+--Number of rockets per country
+
+WITH cte AS (
+    SELECT *
+        , REVERSE(left(REVERSE(REPLACE((location), ',', '.')), charindex('.', REVERSE(REPLACE((location), ',', '.')))-1)) AS country
+    FROM projects..spacemissions
+)
+SELECT country, COUNT(DISTINCT(rocket)) AS total_rocket_count
+FROM cte
+GROUP BY country
+ORDER BY COUNT(DISTINCT(rocket)) DESC
+
+--Number of countries and launch locations
+
+WITH cte AS (
+    SELECT *
+        , REVERSE(left(REVERSE(REPLACE((location), ',', '.')), charindex('.', REVERSE(REPLACE((location), ',', '.')))-1)) AS country
+    FROM projects..spacemissions
+)
+SELECT COUNT(DISTINCT(country)) AS country_count
+    , COUNT(DISTINCT(location)) AS unique_location
+FROM cte
+
+--Total cost
+
+WITH cte AS (
+    SELECT *
+        , CAST((REPLACE(price, ',', '')) AS float) as price_updated
+    FROM projects..spacemissions
+)
+SELECT SUM(price_updated * 1000000) AS total_cost
+FROM cte
+
+--Total cost by country, added success and fail rates to see whether there was a connection between money spent and success
+
+WITH cte AS (
+    SELECT *
+        , CAST((REPLACE(price, ',', '')) AS float) as price_updated
+        , REVERSE(left(REVERSE(REPLACE((location), ',', '.')), charindex('.', REVERSE(REPLACE((location), ',', '.')))-1)) AS [country]
+        , CASE WHEN missionstatus = 'Success' THEN 1 ELSE 0 END AS status_success
+        , CASE WHEN missionstatus = 'Failure' THEN 1 ELSE 0 END AS status_fail
+    FROM projects..spacemissions
+)
+SELECT country
+    , SUM(price_updated * 1000000) AS total_cost
+    , ROUND(((CAST(SUM(status_success) AS FLOAT)/CAST(COUNT(mission) AS FLOAT)) * 100), 2) AS success_rate
+    , ROUND(((CAST(SUM(status_fail) AS FLOAT)/CAST(COUNT(mission) AS FLOAT)) * 100), 2) AS failture_rate
+FROM cte
+GROUP BY country
+ORDER BY SUM(price_updated * 1000000) DESC
+
+-- Final query used for Tableau file (filled NULLs with 0s)
+
+WITH cte AS (
+    SELECT *
+        , CASE WHEN missionstatus = 'Success' THEN 1 ELSE 0 END AS status_success
+        , CASE WHEN missionstatus = 'Partial Failure' THEN 1 ELSE 0 END AS status_part_fail
+        , CASE WHEN missionstatus = 'Prelaunch Failure' THEN 1 ELSE 0 END AS status_pre_fail
+        , CASE WHEN missionstatus = 'Failure' THEN 1 ELSE 0 END AS status_fail
+        , REVERSE(left(REVERSE(REPLACE((location), ',', '.')), charindex('.', REVERSE(REPLACE((location), ',', '.')))-1)) AS [country]
+        , REVERSE(REVERSE(PARSENAME(REPLACE((location), ',', '.'), 2))) AS [state]
+        , REVERSE(REVERSE(PARSENAME(REPLACE((location), ',', '.'), 3))) AS [base]
+        , REVERSE(REVERSE(PARSENAME(REPLACE((location), ',', '.'), 4))) AS [site]
+        , REVERSE(REVERSE(PARSENAME(REPLACE((date), '-', '.'), 3))) AS [year]
+        , CAST((REPLACE(price, ',', '')) AS float) as price_updated
+    FROM projects..spacemissions
+)
+SELECT *
+    , price_updated * 1000000 as price_final
+FROM cte
+                        </code></pre>
+                          </body>
+
+                        <h3>Visualization</h3>
+                        <p style="line-height:100%"><span style="font-size: 15px">
+                            <br />
+                            Moving into Tableau, I created an interactive dashboard where the user can adjust the year, country, and company fields to update the different graphs and charts. While creating the visual, I kept the following questions in mind: 
+                            <br /><br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⬥ How has the number of successful and failed missions changed over time?
+                            <br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⬥ Which rockets have been used most in missions and what is this rockets success rate (hover field)?
+                            <br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⬥ Which countries have completed the most space missions? 
+                        </p></span>
+
+                        <h5>Embedded Tableau Dashboard</h5>
+                        <p style="line-height:100%"><span style="font-size: 15px">
+                            <br />
+                            (Apologies for the embedded dashboard being cut off. Check out the full dashboard <a href="https://public.tableau.com/views/SpaceMissions_16689698297630/Dashboard1?:language=en-US&:display_count=n&:origin=viz_share_link" target="_blank" rel="noopener noreferrer">here</a>!)
+                        </p></span>
+
+                        <div class='tableauPlaceholder' id='viz1670707538102' style='position: relative'><noscript><a href='#'><img alt='Dashboard 1 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Sp&#47;SpaceMissions_16689698297630&#47;Dashboard1&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='SpaceMissions_16689698297630&#47;Dashboard1' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Sp&#47;SpaceMissions_16689698297630&#47;Dashboard1&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='en-US' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1670707538102');                    var vizElement = divElement.getElementsByTagName('object')[0];                    if ( divElement.offsetWidth > 800 ) { vizElement.style.width='100%';vizElement.style.height='800px';} else if ( divElement.offsetWidth > 500 ) { vizElement.style.width='1366px';vizElement.style.height='795px';} else { vizElement.style.width='100%';vizElement.style.height='2977px';}                     var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+
+                        <br />
+                        <h3>Takeaways</h3>
+                        <p style="line-height:100%"><span style="font-size: 15px">
+                            <br /><br />
+                            I would not say I am a huge history buff, but a portion I do enjoy learning about is the Space Race. This dataset displays the competition between the United States and USSR (displayed as Russia) well. We can see that both countries are nearly tied for total space missions approaching 1,500. It was interesting to see the small peak of failed missions toward the beginning (1957) when people first began traveling to space compared to later when successful missions overpower the failed ones.
+                            <br /><br />
+                            <!--<a href="portfolio.html#one">Back to Top</a>-->
+                        </p></span>
+
+					</section>
+
+                </div>
+
+		<!-- Footer -->
+			<footer id="footer">
+				<div class="inner">
+					<ul class="icons">
+						<li><a href="https://www.linkedin.com/in/sarahsprick/" class="icon brands alt fa-linkedin" target="_blank" rel="noopener noreferrer"><span class="label">linkedin</span></a></li>
+						<li><a href="https://github.com/sarahsprick" class="icon brands fa-github" target="_blank" rel="noopener noreferrer"><span class="label">Github</span></a></li>
+						<li><a href="mailto:sarahsprick99@gmail.com" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+					</ul>
+					<ul class="copyright">
+						<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.poptrox.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

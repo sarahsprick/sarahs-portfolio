@@ -1,0 +1,641 @@
+<!DOCTYPE HTML>
+<!--
+	Strata by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Sarah Sprick Portfolio</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<div class="inner">
+					<a class="image avatar"><img src="images/IMG_4222.jpg" alt="" /></a>
+					<h1><strong>Sarah Sprick</strong></h1>
+					<p >Data Analytics</p>
+                    <br />
+					<a href="index.html" class="button" style="background-color: white; opacity: .4">Home</a>
+					<br />
+					<br />
+					<!--<a href="portfolio.html" class="button" style="background-color: white; opacity: .4">Full Portfolio</a>-->
+				</div>
+			</header>
+
+		<!-- Main -->
+			<div id="main">
+
+				<!-- One -->
+
+
+
+                    <section id="spotify">
+						<h2>DIY Spotify Wrapped 2022&nbsp;&nbsp;&nbsp;<img src="images/icons/python - Edited.png" alt="" width="30" />&nbsp;<img src="images/icons/tableau-icon - Edited.png" alt="" width="30" /></h2> 
+                        <h5>December 2022</h5>
+                        <br />
+                        <ul class="actions">
+                            <li><a href="https://github.com/sarahsprick/DIY-Spotify-Wrapped-2022/blob/main/DIY%20Spotify%20Wrapped%202022.ipynb" class="button" target="_blank" rel="noopener noreferrer">Jupyter Notebook
+                            </a></li> 
+                            <li><a href="https://github.com/sarahsprick/DIY-Spotify-Wrapped-2022" target="_blank" rel="noopener noreferrer" class="button">GitHub Repository
+                            </a></li>
+                            <li><a href="https://public.tableau.com/views/WIPSpotifyWrapped/Dashboard1?:language=en-US&:display_count=n&:origin=viz_share_link" target="_blank" rel="noopener noreferrer" class="button">Tableau Dashboard
+                            </a></li>
+                        </ul>
+						<p style="line-height:100%"><span style="font-size: 15px">
+                            As a long-time Spotify Premium subscriber and an avid listener of the "Made For You" playlists (created by Spotify to "help you discover more of what you love"), I have always been curious about the metrics used to determine what I may like. I have also been curious about whether my Spotify Wrapped provided at the end of each year is accurate.
+                            <br /><br />
+                            When this year's Spotify Wrapped was released, I did a little research on what personal data was available to me from Spotify. Turns out, they give you access to quite a bit. To dig into this idea, I used data both provided by Spotify and downloaded by Spotify’s API about my account to see what songs/artists dominate my streaming history, when I listen the most, whether there are any common audio features, and more!
+                        </p></span>
+
+                        <h3>Data</h3>
+                        <p style="line-height:100%"><span style="font-size: 15px">
+                        </p></span>
+
+                        <h5>Streaming History</h5>
+                        <br />
+                        <p style="line-height:100%"><span style="font-size: 15px">
+                            The first section uses my streaming history using my account data found <a href="https://www.spotify.com/us/account/privacy/" target="_blank" rel="noopener noreferrer">here</a>. The turnaround time for this request took around ~5 days. I received a <strong>.zip</strong> folder with multiple <strong>.json</strong> files about my playlists, search queries, payment, followers/following accounts, stream history, etc. from the last 12 months. For this project, I am going to be focusing on the latter (streaming history).
+                            <br /><br />
+                            I recieved 3 <strong>.json</strong> files of streaming history because there is a max of 10,000 rows per file. Used a for loop to append each file to one large DataFrame.
+                        </p></span>
+
+                        <head>
+                            <link rel="stylesheet"
+                                    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+                            <script>hljs.initHighlightingOnLoad();</script>
+                            </head>
+                            <body>
+                            <pre><code class="python">
+list = [sm0, sm1, sm2]
+
+streams = pd.DataFrame()
+
+for df in list:
+streams = streams.append(df, ignore_index=True)
+                            </code></pre>
+                        </body>
+
+                        <p style="line-height:100%"><span style="font-size: 15px">
+                            Looking at Spotify's documentation to <a href="https://support.spotify.com/us/article/understanding-my-data/" target="_blank" rel="noopener noreferrer">Understanding My Data</a>, the DataFrame contains the following:
+                            <br /><br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A list of items (e.g. songs, videos, and podcasts) listened to or watched in the past year, including:
+                            <br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⬥ Date and time of when the stream ended in UTC format (Coordinated Universal Time zone).
+                            <br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⬥ Name of "creator" for each stream (e.g. the artist name if a music track).
+                            <br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⬥ Name of items listened to or watched (e.g. title of music track or name of video).
+                            <br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⬥ “msPlayed”- Stands for how many mili-seconds the track was listened to.
+                            <br /><br />
+                            Converted the <strong>endTime</strong> column to datetime format, then created new columns called <strong>day</strong>, <strong>time</strong>, and <strong>day_week</strong> using this information. Created a new column called <strong>minutes_played</strong> which converts <strong>msPlayed</strong> from milliseconds to minutes. Renamed columns to a more readable format.
+                        </p></span>
+
+                        <head>
+                            <link rel="stylesheet"
+                                  href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+                            <script>hljs.initHighlightingOnLoad();</script>
+                          </head>
+                          <body>
+                            <pre><code class="python">
+streams['endTime'] = pd.to_datetime(streams['endTime'])
+streams['day'] = [d.date() for d in streams['endTime']]
+streams['time'] = [d.time() for d in streams['endTime']]
+streams['day_week'] = pd.DatetimeIndex(streams['endTime']).day_name()
+
+streams['minutes_played'] = streams['msPlayed'].divide(60000)
+streams = streams.drop(['msPlayed'], axis=1)
+
+streams = streams.rename(columns={'endTime': 'end_time', 'artistName': 'artist_name', 'trackName' : 'track_name'})
+                            </code></pre>
+                          </body>
+
+                        <h5>Spotify’s Web API</h5>
+                        <br />
+                        <p style="line-height:100%"><span style="font-size: 15px">
+                            In the next section, I use data from Spotify's Web API. I created a developer account <a href="https://developer.spotify.com/dashboard/" target="_blank" rel="noopener noreferrer">here</a>. You do not need a Spotify Premium subscription, but will need a Spotify account to access this tool. The process to retrieve the data is a little complicated. <a href="https://stmorse.github.io/journal/spotify-api.html" target="_blank" rel="noopener noreferrer">Steven Morse's post titled "Exploring the Spotify API in Python"</a> and <a href="https://jman4190.medium.com/build-your-own-spotify-wrapped-with-python-spotify-and-glide-apps-493dc7da20b" target="_blank" rel="noopener noreferrer">John Mannelly's blog post titled "How to Build Your Own Spotify Wrapped with Python, Spotipy and Glide Apps"</a> were excellent resources I used to help me get the information needed. 
+                            <br /><br />
+                            Part of the reason I chose this route was because the streaming data provided by Spotify (used in the section prior to this) only contained simple information like the artist's name, track name, and date. I was interested in getting more detail about the music I listen to.
+                            <br /><br />
+                            I am not going to include the process of retrieving the data here, check out the articles linked above or the project's Jupyter Notebook for details.
+                        </p></span>
+
+                        <h3>Exploration</h3>
+                        <br />
+
+                        <h5>Streaming History Data Analysis</h5>
+                        <br />
+                        <p style="line-height:100%"><span style="font-size: 15px">
+                            <strong>What were my most listened to artists based on the number of different tracks I listened to?</strong>
+                        </p></span>
+
+                        <head>
+                            <link rel="stylesheet"
+                                  href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+                            <script>hljs.initHighlightingOnLoad();</script>
+                          </head>
+                          <body>
+                            <pre><code class="python">
+artists_by_count = streams.groupby('artist_name')['track_name'].count().sort_values(ascending=False).head(10)
+
+layout = go.Layout(
+    yaxis = dict(
+        zerolinewidth = 1,
+        ticklen = 5,
+        gridwidth = 2))
+
+go.Figure(data = [go.Bar(x = artists_by_count.index, y = artists_by_count)])
+                            </code></pre>
+                          </body>
+
+                        <img src="images/spotify/1.png" alt=""  width="550" />
+
+                        <p style="line-height:100%"><span style="font-size: 15px">
+                            <br />
+                            <strong>What were my most listened to artists based on the number of minutes listened to?</strong> Dang! Looks like I spent a lot of time listening to Karen and Georgia in their show, My Favorite Murder. Although the sum of minutes listened to greatly exceeded my second most listened to artist, they only accounted for 14.29% of my total minutes listening on the Spotify platform.
+                        </p></span>
+
+                        <head>
+                            <link rel="stylesheet"
+                                href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+                            <script>hljs.initHighlightingOnLoad();</script>
+                        </head>
+                        <body>
+                            <pre><code class="python">
+artist_by_time = round(streams.groupby('artist_name')['minutes_played'].sum().sort_values(ascending=False), 2).head(10)
+
+round(((streams['minutes_played'][streams['artist_name'] == 'My Favorite Murder with Karen Kilgariff and Georgia Hardstark'].sum() / streams['minutes_played'].sum()) * 100), 2)
+
+layout = go.Layout(
+    yaxis = dict(
+        zerolinewidth = 1,
+        ticklen = 5,
+        gridwidth = 2))
+
+go.Figure(data = [go.Bar(x = artist_by_time.index,
+                            y = artist_by_time)])
+                        </code></pre>
+                        </body>
+
+                        <img src="images/spotify/2.png" alt=""  width="700" />
+
+                        <p style="line-height:100%"><span style="font-size: 15px">
+                            <br />
+                            <strong>How did my total minutes listening to Spotify look over the last year?</strong>
+                        </p></span>
+
+                        <head>
+                            <link rel="stylesheet"
+                                href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+                            <script>hljs.initHighlightingOnLoad();</script>
+                        </head>
+                        <body>
+                            <pre><code class="python">
+minutes_by_day = streams.groupby('day', as_index=False).sum()
+
+px.line(minutes_by_day, x = 'day', y = 'minutes_played',
+            labels={
+                    'day' : 'Month',
+                    'minutes_played' : 'Minutes Played'})
+                            </code></pre>
+                        </body>
+
+                        <img src="images/spotify/3.png" alt=""  width="550" />
+
+                        <p style="line-height:100%"><span style="font-size: 15px">
+                            <br />
+                            <strong>What were my most listened to songs by the sum of minutes played?</strong>
+                        </p></span>
+
+                        <head>
+                            <link rel="stylesheet"
+                                href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+                            <script>hljs.initHighlightingOnLoad();</script>
+                        </head>
+                        <body>
+                            <pre><code class="python">
+track = streams.groupby(['track_name'], as_index=False).sum().sort_values(by = 'minutes_played', ascending = False)
+track_artist = streams[['artist_name', 'track_name']].drop_duplicates(subset = ["track_name"])
+track = pd.merge(track_artist, track, on = 'track_name').sort_values(by = 'minutes_played', ascending = False).reset_index(drop = True).head(10) 
+
+ax = px.bar(track, x = 'track_name', y = 'minutes_played', color = "artist_name")
+ax.update_layout(xaxis = {'categoryorder':'total descending'})
+                            </code></pre>
+                        </body>
+
+                        <img src="images/spotify/4.png" alt=""  width="650" />
+
+                        <h5><br />Spotify’s Web API</h5>
+                            <p style="line-height:100%"><span style="font-size: 15px">
+                                <br />
+                                <strong>What genres did I listen to most?</strong>
+                            </p></span>
+
+                        <head>
+                            <link rel="stylesheet"
+                                    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+                            <script>hljs.initHighlightingOnLoad();</script>
+                            </head>
+                            <body>
+                            <pre><code class="python">
+top_genre = pd.concat([api_features['genre1'], api_features['genre2'], api_features['genre3'], api_features['genre4'], api_features['genre5'], api_features['genre6'], api_features['genre7']])
+top_genre = top_genre.value_counts().rename_axis('genre').reset_index(name = 'counts').head(10)
+
+px.bar(top_genre, x = 'genre', y = 'counts', color = 'genre')
+                                </code></pre>
+                            </body>
+                    
+                        <img src="images/spotify/5.png" alt=""  width="650" />
+
+                        <p style="line-height:100%"><span style="font-size: 15px">
+                            <br />
+                            According to the <a href="https://developer.spotify.com/documentation/web-api/reference/#/operations/get-several-audio-features" target="_blank" rel="noopener noreferrer">Spotify Developer documentation</a>, the features are described as below:
+                            <br /><br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⬥ acousticness - A confidence measure from 0.0 to 1.0 of whether the track is acoustic. 
+                            <br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⬥ danceability - How suitable a track is for dancing.
+                            <br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⬥ energy - Energy is a measure from 0.0 to 1.0 and represents a perceptual measure of intensity and activity.
+                            <br /> 
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⬥ instrumentalness - Predicts whether a track contains no vocals. 
+                            <br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⬥ liveness - Detects the presence of an audience in the recording. 
+                            <br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⬥ loudness - The overall loudness of a track in decibels (dB).
+                            <br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⬥ speechiness - Speechiness detects the presence of spoken words in a track.
+                            <br /> 
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⬥ tempo - The overall estimated tempo of a track in beats per minute (BPM). 
+                            <br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⬥ valence - A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a track.
+                            <br /><br />
+                            <strong>How do the audio features look in box plots?</strong>
+                        </p></span>
+
+                        <head>
+                            <link rel="stylesheet"
+                                    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+                            <script>hljs.initHighlightingOnLoad();</script>
+                            </head>
+                            <body>
+                            <pre><code class="python">
+top_track_features[['acousticness', 'danceability', 'energy', 'instrumentalness', 'liveness', 'speechiness', 'valence']].plot(kind = 'box')
+
+plt.xticks(rotation = 45)
+                                </code></pre>
+                            </body>
+                
+                        <img src="images/spotify/6.png" alt=""  width="350" />
+
+                        <p style="line-height:100%"><span style="font-size: 15px">
+                            <br />
+                            <strong>Is there a correlation between genre and any of the audio features?</strong>
+                            <br /><br />
+                            No, there was no significant correlation between genre 1 and any of the audio features. This was surprising to me. I thought, for example, if the genre was rap, then speechiness would be high. This was not the case, however, the following pairs of values did have the top 3 significant positive correlations.
+                            <br /><br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⬥ danceability & liveness
+                            <br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⬥ valence & track_name
+                            <br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⬥ energy & loudness
+                            <br /><br />
+                            <strong>How do the audio features look in box plots?</strong>
+                        </p></span>
+
+                        <head>
+                            <link rel="stylesheet"
+                                  href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+                            <script>hljs.initHighlightingOnLoad();</script>
+                          </head>
+                          <body>
+                            <pre><code class="python">
+top_track_features = api_features[['track_name', 'artist_name', 'genre1', 'danceability', 'energy', 'loudness', 'speechiness', 'acousticness', 'instrumentalness', 'liveness', 'valence', 'tempo']][api_features['track_name'].isin(track['track_name'])].reset_index(drop = True)
+
+top_track_features.corr()
+
+num_top_track_features = top_track_features
+
+for col_name in num_top_track_features.columns:
+    if (num_top_track_features[col_name].dtype == 'object'):
+        num_top_track_features[col_name] = num_top_track_features[col_name].astype('category')
+        num_top_track_features[col_name] = num_top_track_features[col_name].cat.codes
+        
+correlation_matrix = correlation_matrix = num_top_track_features.corr()
+plt.figure(figsize=(15, 9))
+
+sns.heatmap(correlation_matrix, annot = True)
+
+plt.title('Correlation Matrix for All Values')
+
+plt.xlabel('Track Features')
+plt.ylabel('Track Features')
+                                </code></pre>
+                          </body>
+            
+                        <img src="images/spotify/7.png" alt=""  width="600" />
+
+
+                        <h3><br />Visualization</h3>
+                        <p style="line-height:100%"><span style="font-size: 15px">
+                            <br />
+                            To visualize the data, I used Tableau. The theme is not exactly what I would have chosen, but Spotify Wrapped is known to have unique graphic design elements and I wanted to play into that.
+                        </p></span>
+
+                        <h5>Embedded Tableau Dashboard</h5>
+                        <p style="line-height:100%"><span style="font-size: 15px">
+                            <br />
+                            (Apologies for the embedded dashboard being cut off. Check out the full dashboard <a href="https://public.tableau.com/views/SpaceMissions_16689698297630/Dashboard1?:language=en-US&:display_count=n&:origin=viz_share_link" target="_blank" rel="noopener noreferrer">here</a>!)
+                        </p></span>
+
+                        <div class='tableauPlaceholder' id='viz1670710402939' style='position: relative'><noscript><a href='#'><img alt='Dashboard 1 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;WI&#47;WIPSpotifyWrapped&#47;Dashboard1&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='WIPSpotifyWrapped&#47;Dashboard1' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;WI&#47;WIPSpotifyWrapped&#47;Dashboard1&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='en-US' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1670710402939');                    var vizElement = divElement.getElementsByTagName('object')[0];                    if ( divElement.offsetWidth > 800 ) { vizElement.style.width='100%';vizElement.style.height='700px';} else if ( divElement.offsetWidth > 500 ) { vizElement.style.width='827px';vizElement.style.height='1196px';} else { vizElement.style.width='100%';vizElement.style.height='3577px';}                     var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+
+                        <br />
+                        <h3>Takeaways</h3>
+                        <p style="line-height:100%"><span style="font-size: 15px">
+                            <br /><br />
+                            Looking at my Spotify streaming history from the last year, I really liked listening to Mac Miller, Suicideboys, and Pouya for tracks, while My Favorite Murder and Mile Higher were my top podcasts. “Void” and “Materialism as a Means to an End” were my most listened tracks. I was not surprised to see that most of my listening occurred on weekdays.
+                            <br /><br />
+                            Comparing my analysis to what was provided to me in the Spotify application, their top artists, top songs, etc. all matched mine.
+                            <br /><br /> 
+                            However, I was surprised to see that rap and dark rap were my most listened-to genres. You may be looking at this analysis and thinking I have a dedicated taste in music. I promise this has not always been the case. It would be interesting to see how 2022 compares to prior years. Maybe this will be my next project. :)
+                            <br /><br /> 
+                            <strong>Packages Used:</strong>
+                            <br />
+                            ⬥ pandas
+                            <br />
+                            ⬥ numpy
+                            <br />
+                            ⬥ plotly
+                            <br />
+                            ⬥ spotipy
+                            <br />
+                            ⬥ requests
+                            <br />
+                            ⬥ matplotlib
+                            <br />
+                            ⬥ seaborn
+                            <br /><br />
+                           <!-- <a href="portfolio.html#one">Back to Top</a> -->
+                        </p></span>
+
+					</section>
+
+
+		<!-- Footer -->
+        <footer id="footer">
+            <div class="inner">
+                <ul class="icons">
+                    <li><a href="https://www.linkedin.com/in/sarahsprick/" class="icon brands alt fa-linkedin" target="_blank" rel="noopener noreferrer"><span class="label">linkedin</span></a></li>
+                    <li><a href="https://github.com/sarahsprick" class="icon brands fa-github" target="_blank" rel="noopener noreferrer"><span class="label">Github</span></a></li>
+                    <li><a href="mailto:sarahsprick99@gmail.com" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+                </ul>
+                <ul class="copyright">
+                    <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+                </ul>
+            </div>
+        </footer>
+
+    <!-- Scripts -->
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/jquery.poptrox.min.js"></script>
+        <script src="assets/js/browser.min.js"></script>
+        <script src="assets/js/breakpoints.min.js"></script>
+        <script src="assets/js/util.js"></script>
+        <script src="assets/js/main.js"></script>
+
+</body>
+</html>
+
+<!--
+                    <section id="space">
+                        <h2>Space Missions&nbsp;&nbsp;&nbsp;<img src="images/icons/sql-server - Edited.png" alt="" width="30" />&nbsp;<img src="images/icons/tableau-icon - Edited.png" alt="" width="30" /></h2> 
+                        <h5>November 2022</h5>
+                        <br />
+                        <ul class="actions">
+                            <li><a href="https://github.com/sarahsprick/Maven-Space-Missions/blob/main/space_missions_queries.sql" class="button" target="_blank" rel="noopener noreferrer">SQL Queries
+                            </a></li>
+                            <li><a href="https://github.com/sarahsprick/Maven-UFO-Sightings" target="_blank" rel="noopener noreferrer" class="button">GitHub Repository
+                            </a></li> 
+                            <li><a href="https://public.tableau.com/views/SpaceMissions_16689698297630/Dashboard1?:language=en-US&:display_count=n&:origin=viz_share_link" target="_blank" rel="noopener noreferrer" class="button">Tableau Dashboard
+
+                            </a></li>
+                        </ul>
+						<p style="line-height:100%"><span style="font-size: 15px">
+                            This project explores the Space Missions dataset from Maven Analytic’s <a href="https://www.mavenanalytics.io/data-playground" target="_blank" rel="noopener noreferrer">Data Playground</a>. This specific dataset was used in the company’s <a href="https://www.mavenanalytics.io/blog/maven-space-challenge" target="_blank" rel="noopener noreferrer">Maven Space Challenge</a> (this is basically a challenge where all participants use the same dataset and use their tool of choice to see who can create the best visualization). I found the data too late to actually participate in this challenge, but did utilize their analysis questions and created a visualization as though I was a participant. I thought this dataset looked interesting and wanted to explore it!
+                        </p></span>
+
+                        <h3>Data</h3>
+                        <br />
+                        <p style="line-height:100%"><span style="font-size: 15px">
+                            The dataset was downloaded in .csv format and consisted of 4,630 rows of records each representing a space mission from 1957 to August of 2022 and containing information about the name, location, company, rocket, etc.
+                        </p></span>
+
+                        <h5>Import & Preparation</h5>
+                        <br />
+                        <p style="line-height:100%"><span style="font-size: 15px">
+                            TFor this project, I chose SQL as my tool of choice to clean, transform, and explore the data. To get started, I created a new table in Microsoft SQL Server Management Studio (SSMS) and inserted the data as provided by Maven Analytics 
+                            <br /><br />
+                            I used simple SQL queries to explore the data and create additional columns that would be used later on while visualizing. I chose to keep all columns (even though not all were utilized) because the dataset only contained 9 columns to begin with. In summary, below are some of the notable transformations performed on the data: 
+                            <br /><br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⬥ Used the `MissionStatus` column to create dummy columns containing binary variables for each status
+                            <br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⬥ Parsed `Location` into individual columns for the country, state, base, and site
+                            <br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⬥ New price column which converts previous string format (ex. "1,160" to represent 1,160,000,000) to numeric
+                        </p></span>
+
+                        <h3>Analysis</h3>
+                        <br />
+                        <p style="line-height:100%"><span style="font-size: 15px">
+                            Below are the questions provided by Maven Analytics for suggested analysis:
+                            <br /><br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1. How have rocket launches trended across time? Has mission success rate increased?
+                            <br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2. Which countries have had the most successful space missions? Has it always been that way?
+                            <br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3. Which rocket has been used for the most space missions? Is it still active?
+                            <br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4. Are there any patterns you can notice with the launch locations?
+                            <br /><br />
+                            For the most part, I took these questions into consideration while performing my analysis but definitely did some additional exploring. 
+                        </p></span>
+
+                        <head>
+                            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js">
+                            </script>
+                            <script>hljs.initHighlightingOnLoad();
+                            </script>
+                        </head>
+                            <body>
+                                <pre>
+                                    <code class="sql">
+--Number of missions attempted per year
+
+SELECT DISTINCT 
+    LEFT(date, 4) AS year
+    , COUNT(mission) AS 'Count'
+FROM projects..spacemissions
+GROUP BY LEFT(date, 4)
+ORDER BY LEFT(date, 4)
+
+--Success rate (mission_status = 'Success'/ total missions) by year
+
+WITH cte AS (
+    SELECT *
+        , CASE WHEN missionstatus = 'Success' THEN 1 ELSE 0 END AS status_success
+    FROM projects..spacemissions
+)
+SELECT LEFT(date, 4) AS year
+    , ROUND(((CAST(SUM(status_success) AS FLOAT)/CAST(COUNT(status_success) AS FLOAT)) * 100), 2) AS success_rate
+FROM cte
+GROUP BY LEFT(date, 4)
+
+--Success and failure rates by country
+
+WITH cte AS (
+    SELECT *
+        , CASE WHEN missionstatus = 'Success' THEN 1 ELSE 0 END AS status_success
+        , CASE WHEN missionstatus = 'Failure' THEN 1 ELSE 0 END AS status_fail
+        , REVERSE(left(REVERSE(REPLACE((location), ',', '.')), charindex('.', REVERSE(REPLACE((location), ',', '.')))-1)) AS country
+    FROM projects..spacemissions
+)
+SELECT country
+    , ROUND(((CAST(SUM(status_success) AS FLOAT)/CAST(COUNT(mission) AS FLOAT)) * 100), 2) AS success_rate
+    , ROUND(((CAST(SUM(status_fail) AS FLOAT)/CAST(COUNT(mission) AS FLOAT)) * 100), 2) AS failture_rate
+FROM cte
+GROUP BY country
+
+--Total number of rockets
+
+SELECT COUNT(DISTINCT(rocket)) AS total_rocket_count
+FROM projects..spacemissions
+
+--Number of rockets per country
+
+WITH cte AS (
+    SELECT *
+        , REVERSE(left(REVERSE(REPLACE((location), ',', '.')), charindex('.', REVERSE(REPLACE((location), ',', '.')))-1)) AS country
+    FROM projects..spacemissions
+)
+SELECT country, COUNT(DISTINCT(rocket)) AS total_rocket_count
+FROM cte
+GROUP BY country
+ORDER BY COUNT(DISTINCT(rocket)) DESC
+
+--Number of countries and launch locations
+
+WITH cte AS (
+    SELECT *
+        , REVERSE(left(REVERSE(REPLACE((location), ',', '.')), charindex('.', REVERSE(REPLACE((location), ',', '.')))-1)) AS country
+    FROM projects..spacemissions
+)
+SELECT COUNT(DISTINCT(country)) AS country_count
+    , COUNT(DISTINCT(location)) AS unique_location
+FROM cte
+
+--Total cost
+
+WITH cte AS (
+    SELECT *
+        , CAST((REPLACE(price, ',', '')) AS float) as price_updated
+    FROM projects..spacemissions
+)
+SELECT SUM(price_updated * 1000000) AS total_cost
+FROM cte
+
+--Total cost by country, added success and fail rates to see whether there was a connection between money spent and success
+
+WITH cte AS (
+    SELECT *
+        , CAST((REPLACE(price, ',', '')) AS float) as price_updated
+        , REVERSE(left(REVERSE(REPLACE((location), ',', '.')), charindex('.', REVERSE(REPLACE((location), ',', '.')))-1)) AS [country]
+        , CASE WHEN missionstatus = 'Success' THEN 1 ELSE 0 END AS status_success
+        , CASE WHEN missionstatus = 'Failure' THEN 1 ELSE 0 END AS status_fail
+    FROM projects..spacemissions
+)
+SELECT country
+    , SUM(price_updated * 1000000) AS total_cost
+    , ROUND(((CAST(SUM(status_success) AS FLOAT)/CAST(COUNT(mission) AS FLOAT)) * 100), 2) AS success_rate
+    , ROUND(((CAST(SUM(status_fail) AS FLOAT)/CAST(COUNT(mission) AS FLOAT)) * 100), 2) AS failture_rate
+FROM cte
+GROUP BY country
+ORDER BY SUM(price_updated * 1000000) DESC
+
+-- Final query used for Tableau file (filled NULLs with 0s)
+
+WITH cte AS (
+    SELECT *
+        , CASE WHEN missionstatus = 'Success' THEN 1 ELSE 0 END AS status_success
+        , CASE WHEN missionstatus = 'Partial Failure' THEN 1 ELSE 0 END AS status_part_fail
+        , CASE WHEN missionstatus = 'Prelaunch Failure' THEN 1 ELSE 0 END AS status_pre_fail
+        , CASE WHEN missionstatus = 'Failure' THEN 1 ELSE 0 END AS status_fail
+        , REVERSE(left(REVERSE(REPLACE((location), ',', '.')), charindex('.', REVERSE(REPLACE((location), ',', '.')))-1)) AS [country]
+        , REVERSE(REVERSE(PARSENAME(REPLACE((location), ',', '.'), 2))) AS [state]
+        , REVERSE(REVERSE(PARSENAME(REPLACE((location), ',', '.'), 3))) AS [base]
+        , REVERSE(REVERSE(PARSENAME(REPLACE((location), ',', '.'), 4))) AS [site]
+        , REVERSE(REVERSE(PARSENAME(REPLACE((date), '-', '.'), 3))) AS [year]
+        , CAST((REPLACE(price, ',', '')) AS float) as price_updated
+    FROM projects..spacemissions
+)
+SELECT *
+    , price_updated * 1000000 as price_final
+FROM cte
+                        </code></pre>
+                          </body>
+
+                        <h3>Visualization</h3>
+                        <p style="line-height:100%"><span style="font-size: 15px">
+                            <br />
+                            Moving into Tableau, I created an interactive dashboard where the user can adjust the year, country, and company fields to update the different graphs and charts. While creating the visual, I kept the following questions in mind: 
+                            <br /><br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⬥ How has the number of successful and failed missions changed over time?
+                            <br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⬥ Which rockets have been used most in missions and what is this rockets success rate (hover field)?
+                            <br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⬥ Which countries have completed the most space missions? 
+                        </p></span>
+
+
+					</section>
+
+                </div>
+
+		<!-- Footer -->
+			<footer id="footer">
+				<div class="inner">
+					<ul class="icons">
+						<li><a href="https://www.linkedin.com/in/sarahsprick/" class="icon brands alt fa-linkedin" target="_blank" rel="noopener noreferrer"><span class="label">linkedin</span></a></li>
+						<li><a href="https://github.com/sarahsprick" class="icon brands fa-github" target="_blank" rel="noopener noreferrer"><span class="label">Github</span></a></li>
+						<li><a href="mailto:sarahsprick99@gmail.com" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+					</ul>
+					<ul class="copyright">
+						<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.poptrox.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
