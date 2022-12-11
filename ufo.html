@@ -61,19 +61,19 @@
                         <p style="line-height:100%"><span style="font-size: 15px">
                             The first thing I do whenever starting with a new dataset is run a <strong>for</strong> loop that converts the column names to lowercase and snake case. This makes it easier for future me to reference the columns.
                             <br /><br />
-                            <img src="images/ufo/1.png" alt=""  width="700" />
+                            <img src="images/ufo/1.PNG" alt=""  width="700" />
                             <br /><br />
                             I am going to focus my analysis on UFO sightings that occurred in the United States. Created a new DataFrame called <strong>ufo_us</strong> which includes all rows where the country is equal to <strong>us</strong>. This narrowed down the number of rows being analyzed from 80,332 to 65,114.
                             <br /><br />
-                            <img src="images/ufo/2.png" alt=""  width="700" />
+                            <img src="images/ufo/2.PNG" alt=""  width="700" />
                             <br /><br />
                             The <strong>ufo_us</strong> DataFrame contains rows where the sighting occurred in US territories (ex. Puerto Rico). To narrow down the DataFrame even further, I created a list of the 50 states and am overwiting the ufo_us DataFrame where values in the state column are in the list of states. This narrowed down the number of rows being analyzed from 65,114 to 65,082.
                             <br /><br />
-                            <img src="images/ufo/3.png" alt=""  width="700" />
+                            <img src="images/ufo/3.PNG" alt=""  width="700" />
                             <br /><br />
                             The comments column includes HTML character codes rather than the characters themselves. I replaced the code with their respective characters.
                             <br /><br />
-                            <img src="images/ufo/6.png" alt=""  width="700" />
+                            <img src="images/ufo/6.PNG" alt=""  width="700" />
                             <br /><br />
                             There was some additional cleaning performed on the dataset, but the above is just a summary of the most notable items. Check out the Jupyter Notebook file to see all cleaning.
                         </p></span>
@@ -97,32 +97,32 @@
                             <br /><br />
                             <strong>What shapes of UFOs tend to be seen most often?</strong> The 'light' shape was seen most often at 21.2% of total sightings or 13,471 total times. The 'triangle' shape was seen second most at 10.3% or 6,548 times.
                             <br /><br />
-                            <img src="images/ufo/7.png" alt=""  width="700" />
+                            <img src="images/ufo/7.PNG" alt=""  width="700" />
                             <br /><br />
                             <strong>Take a look at data since the year 2000. How have annual sightings trended?</strong> Since 2000, the number of sightings by year saw an overall upward trend and peaked in 2012. After the peak, the number of sightings drastically decreased.
                             <br /><br />
-                            <img src="images/ufo/8.png" alt=""  width="700" />
+                            <img src="images/ufo/8.PNG" alt=""  width="700" />
                             <br /><br />
                             <strong>Which states report the most UFO sightings? What do you think about this?</strong> 'california' saw the most sightings with a total of 8,912 or 13.7% of total sightings. Two factors I believe may play into this are that it is the most populous state and moving east away from the coast, the desert terrain offers clearer skies for sightings.
                             <br /><br />
-                            <img src="images/ufo/9.png" alt=""  width="700" />
+                            <img src="images/ufo/9.PNG" alt=""  width="700" />
                             <br /><br />
                             <strong>What time of day did most sightings occur?</strong> To better visualize this, I created a new column called time_category which bins the datetime column into the following categories: '0:00 - 3:59', '4:00 - 7:59', '8:00 - 11:59', '12:00 - 15:59', '16:00 - 19:59', '20:00 - 23:59'. There were a total of 31,836 sightings or 48.9% of total sightings during the 8:00 PM - 11:59 PM bin. This may be due to the requirement of darkness to better see anomalies in the sky.
                             <br /><br />
-                            <img src="images/ufo/10.png" alt=""  width="700" />
-                            <img src="images/ufo/11.png" alt=""  width="700" />
+                            <img src="images/ufo/10.PNG" alt=""  width="700" />
+                            <img src="images/ufo/11.PNG" alt=""  width="700" />
                             <br /><br />
                             <strong>What is the typical duration for a UFO sighting?</strong> Created a new column called duration_(minutes) which is simply the duration_(seconds) converted to minutes. Placed these values on a box and whisker plot (excluding outliers). The long upper whisker indicates that there may be a larger variance among the greater values in the fourth quartile. duration_(minutes) is positively skewed. The median duration is around 3 minutes.
                             <br /><br />
-                            <img src="images/ufo/12.png" alt=""  width="700" />
+                            <img src="images/ufo/12.PNG" alt=""  width="700" />
                             <br /><br />
                             <strong>Which months have the most sightings?</strong> The most sightings were in 'july.' There were a total of 7,649 sightings or 11.8% of the total.
-                            <img src="images/ufo/13.png" alt=""  width="700" />
-                            <img src="images/ufo/14.png" alt=""  width="700" />
+                            <img src="images/ufo/13.PNG" alt=""  width="700" />
+                            <img src="images/ufo/14.PNG" alt=""  width="700" />
                             <br /><br />
                             <strong>Which words occurred most in the comments?</strong> Used .split(), .explode(), and to_list() to create a list of all words in the comments column. Then, used .most_common() to better understand which words were used most. Besides the determiners, some of the most frequent words were 'light(s)', 'over', 'object', 'sky', 'moving', etc.
                             <br /><br />
-                            <img src="images/ufo/15.png" alt=""  width="700" />
+                            <img src="images/ufo/15.PNG" alt=""  width="700" />
                         </p></span>
 
                         <h3>Visualization</h3>

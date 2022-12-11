@@ -67,19 +67,19 @@
                             <br /><br />
                             The first thing I do whenever starting with a new dataset is run a <strong>for</strong> loop that converts the column names to lowercase and snake case. This makes it easier for future me to reference the columns. 
                             <br /><br />
-                            <img src="images/weather/1.png" alt=""  width="700" />
+                            <img src="images/weather/1.PNG" alt=""  width="700" />
                             <br /><br />
                             The dates are split up with the year and month in one column and the day in a seperate column (locations does not include the day field). I created a new column that combines these two fields into a complete date.
                             <br /><br />
-                            <img src="images/weather/2.png" alt="" width="700" />
+                            <img src="images/weather/2.PNG" alt="" width="700" />
                             <br /><br />
                             The <strong>damage_property</strong> and <strong>damage_crops</strong> columns contain information about the monetary damage caused by a storm event. The current formatting (ex. $10.00K to represent 10,000), is not useful for aggregate functions. I converted the columns from an object data type to integer and creating a new column called <strong>damage_total</strong> which is the sum of the two for each row.
                             <br /><br />
-                            <img src="images/weather/3.png" alt="" width="700" />
+                            <img src="images/weather/3.PNG" alt="" width="700" />
                             <br /><br />
                             In the fatalities dataset, I created bins that categorize the <strong>fatality_age</strong> into the following categories: '0-18', '19-24', '25-34', '35-44', '45-54', '55-64', and '65+'.'
                             <br /><br />
-                            <img src="images/weather/10.png" alt="" width="700" />
+                            <img src="images/weather/10.PNG" alt="" width="700" />
                             <br /><br />
                             There was some additional cleaning performed on the datasets, but the above is just a summary of the most notable.
                         </p></span>
@@ -91,27 +91,27 @@
                             <br /><br />
                             <strong>Which states had the most storm events?</strong> Texas had the most storm events in 2021 with a total of 4,623.
                             <br /><br />
-                            <img src="images/weather/4.png" alt="" width="700" />
+                            <img src="images/weather/4.PNG" alt="" width="700" />
                             <br /><br />
                             <strong>Which storm event types occurred the most?</strong> Thunderstorm Wind occurred the most with a total of 15,535.
                             <br /><br />
-                            <img src="images/weather/5.png" alt="" width="700" />
+                            <img src="images/weather/5.PNG" alt="" width="700" />
                             <br /><br />
                             <strong>Of the tornado storm event type, which EF rating occurred most?</strong> The EF0 rating occurred the most in 2021, this is not surprising.
                             <br /><br />
-                            <img src="images/weather/6.png" alt="" width="700" />
+                            <img src="images/weather/6.PNG" alt="" width="700" />
                             <br /><br />
                             <strong>In which locations did the most fatalities occur?</strong> The top location for fatalities occurred in a permanent home  with a total of 168 deaths and vehicle/towed trailer was second with a total of 160.
                             <br /><br />
-                            <img src="images/weather/7.png" alt="" width="700" />
+                            <img src="images/weather/7.PNG" alt="" width="700" />
                             <br /><br />
                             <strong>What percentage was each gender from the total of fatalities?</strong> 59.8% of fatalities were male, 28.7% were female, and 11.5% were N/A.
                             <br /><br />
-                            <img src="images/weather/9.png" alt="" width="700" />
+                            <img src="images/weather/9.PNG" alt="" width="700" />
                             <br /><br />
                             <strong>From the binned age categories, which had the top number of fatalities?</strong> Ages 65+ contributed to the most fatalities at 29.5%.
                             <br /><br />
-                            <img src="images/weather/11.png" alt="" width="700" />
+                            <img src="images/weather/11.PNG" alt="" width="700" />
                         </p></span>
 
                         <h3>Visualization</h3>
@@ -123,37 +123,37 @@
                                 <section id="two">
                                     <div class="row">
                                         <article class="col-6 col-12-xsmall work-item">
-                                            <a href="images/weather/16.png" class="image fit thumb"><img src="images/weather/16.png" alt="" /></a>
+                                            <a href="images/weather/16.PNG" class="image fit thumb"><img src="images/weather/16.PNG" alt="" /></a>
                                             <h3>Tornado Count on Calendar Heatmap</h3>
                                             <p>All tornado storm event types on a calendar heatmap using <strong>calplot</strong>. This visual shows the concentration of tornadoes in spring/early summer as many would expect, however it also displays the "random" outbreak which historically occurs in December that many forget about.
                                             </p>
                                         </article>
                                         <article class="col-6 col-12-xsmall work-item">
-                                            <a href="images/weather/15.png" class="image fit thumb"><img src="images/weather/15.png" alt="" /></a>
+                                            <a href="images/weather/15.PNG" class="image fit thumb"><img src="images/weather/15.PNG" alt="" /></a>
                                             <h3>Top Storm Events by Monetary Damage</h3>
                                             <p>A bar plot with the top 10 event types on the x-axis and the monetary damage on the y-axis. We can see that hurricanes caused a significantly greater amount of damage compared to the runner-up, storm surge/tide.
                                             </p>
                                         </article>
                                         <article class="col-6 col-12-xsmall work-item">
-                                            <a href="images/weather/14.png" class="image fit thumb"><img src="images/weather/14.png" alt="" /></a>
+                                            <a href="images/weather/14.PNG" class="image fit thumb"><img src="images/weather/14.PNG" alt="" /></a>
                                             <h3>Top Storm Events on Map</h3>
                                             <p>The top 15 storm events by count of occurance plotted on a United States map using <strong>plotly.express.scatter_geo</strong>. This visualizes the areas of the country certain storm events are concentrated.
                                             </p>
                                         </article>
                                         <article class="col-6 col-12-xsmall work-item">
-                                            <a href="images/weather/17.png" class="image fit thumb"><img src="images/weather/17.png" alt="" /></a>
+                                            <a href="images/weather/17.PNG" class="image fit thumb"><img src="images/weather/17.PNG" alt="" /></a>
                                             <h3>Tornado Events on Map</h3>
                                             <p>All tornado storm events (excluding EFU) plotted on a United States map using <strong>plotly.express.scatter_geo</strong>. I found this visual interesting because it depicts the NE upward pattern often seen in tornado episodes (ex. the cluster of EF4 tornadoes in SW Kentucky).
                                             </p>
                                         </article>
                                         <article class="col-6 col-12-xsmall work-item">
-                                            <a href="images/weather/18.png" class="image fit thumb"><img src="images/weather/18.png" alt="" /></a>
+                                            <a href="images/weather/18.PNG" class="image fit thumb"><img src="images/weather/18.PNG" alt="" /></a>
                                             <h3>Top Storm Events by Fatalities</h3>
                                             <p>A bar plot with the top 10 event types on the x-axis and the fatality count on the y-axis. Similar to the previous visual displaying monetary damage, hurricanes are once again had highest with storm surge/tide as runner-up.
                                             </p>
                                         </article>
                                         <article class="col-6 col-12-xsmall work-item">
-                                            <a href="images/weather/19.png" class="image fit thumb"><img src="images/weather/19.png" alt="" /></a>
+                                            <a href="images/weather/19.PNG" class="image fit thumb"><img src="images/weather/19.PNG" alt="" /></a>
                                             <h3>Fatalities by Age Category</h3>
                                             <p>A stacked bar plot with the age category on the x-axis, the fatality count on the y-axis, and each stack representing a storm event category. As previously seen, the age category 65+ had the most fatalities, but now we can see that wind was the top contributor to this.
                                             </p>
