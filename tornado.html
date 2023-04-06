@@ -1,0 +1,192 @@
+<!DOCTYPE HTML>
+<!--
+	Strata by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Sarah Sprick Portfolio</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<div class="inner">
+					<a class="image avatar"><img src="images/IMG_4222.jpg" alt="" /></a>
+					<h1><strong>Sarah Sprick</strong></h1>
+					<p >Data Analytics</p>
+                    <br />
+					<a href="index.html" class="button" style="background-color: white; opacity: .4">Home</a>
+					<br />
+					<br />
+					<!--<a href="portfolio.html" class="button" style="background-color: white; opacity: .4">Full Portfolio</a>-->
+				</div>
+			</header>
+
+		<!-- Main -->
+			<div id="main">
+
+                    <section id="space">
+                        <h2>Recorded Tornado Tracks&nbsp;&nbsp;&nbsp;<img src="images/icons/python - Edited.png" alt="" width="30" />&nbsp;<img src="images/icons/tableau-icon - Edited.png" alt="" width="30" /></h2> 
+                        <h5>March 2023</h5>
+                        <br />
+                        <ul class="actions">
+                            <li><a href="https://" class="button" target="_blank" rel="noopener noreferrer">Jupyter Notebook
+                            </a></li>
+                            <li><a href="https://" class="button" target="_blank" rel="noopener noreferrer">Github Repository
+                            </a></li> 
+                            <li><a href="https://" class="button" target="_blank" rel="noopener noreferrer">Tableau 
+                            </a></li> 
+                        </ul>
+						<p style="line-height:100%"><span style="font-size: 15px">
+                            Tornados have always been my favorite weather phenomenon. More specifically, I have an interest in attempting to identify trends of where these weather events occur. As it is becoming more and more evident that the infamous “Tornado Alley” has slowly begun shifting from the Great Plains region to the more southwest area of the country, coined “Dixie Alley,” I wanted to attempt creating an interactive visual of this. 
+                            <br />
+                        </p></span>
+
+                        <h3>Data</h3>
+                        <br />
+                        <p style="line-height:100%"><span style="font-size: 15px">
+                            In November of 2022, I completed a project using data from the National Centers for Environmental Information's National Oceanic and Atmospheric Administration (NOAA). Check it out <a href="https://sarahsprick.github.io/sarahs-portfolio/noaa.html" target="_blank" rel="noopener noreferrer">here</a>. The data used in my previous project was for all weather events within a 1 year period. 
+                            <br /><br />
+                            For this project I am again using data from NOAA, however this data ranges from 1950-2021 and is only tornado events. The data can be found <a href="https://www.spc.noaa.gov/wcm/#data" target="_blank" rel="noopener noreferrer">here</a> on NOAA’s website (I used the “1950-2021_all_tornadoes.csv” file, direct download can be found <a href="https://www.spc.noaa.gov/wcm/data/1950-2021_all_tornadoes.csv" target="_blank" rel="noopener noreferrer">here</a>. An awesome resource for better understanding the data is NOAA’s <a href="https://www.spc.noaa.gov/wcm/data/SPC_severe_database_description.pdf" target="_blank" rel="noopener noreferrer">database description</a>. 
+                        </p></span>
+
+                        <h5>Import & Cleaning</h5>
+                        <br />
+                        <p style="line-height:100%"><span style="font-size: 15px">
+
+                        </p></span>
+
+                           
+                        <h3>Exploration</h3>
+                        <br />
+                        <p style="line-height:100%"><span style="font-size: 15px">
+
+                        </p></span>
+
+
+
+                        <h3>Visualization</h3>
+                        <p style="line-height:100%"><span style="font-size: 15px">
+                            <br />
+                            Before moving into Tableau, I prepared the data by performing some small transformations in Python. My goal for this visualization was to graph the path of the tornadoes using the starting and ending coordinates in the NOAA SPC data. After researching the best way to do this, I determined that rather than having two sets of columns each containing the starting longitude and latitude and ending longitude and latitude, respectively, I needed just one set of columns with an additional column with fields specifying whether the coordinates are starting or ending. 
+                        </p></span>
+
+                            <head>
+                                <link rel="stylesheet"
+                                      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+                                <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+                                <script>hljs.initHighlightingOnLoad();</script>
+                            </head>
+                              <body>
+                                <pre><code class="python">
+# read data & create copy
+filename = '1950-2021_all_tornadoes.csv'
+data = pd.read_csv(filename)
+data2 = data.copy()
+
+# drop coordinates columns
+data = data.drop(['elon', 'elat'], axis=1)
+data2 = data2.drop(['slon', 'slat'], axis=1)
+
+# rename remaining coordinates columns
+data = data.rename(columns={'slon': 'lon', 'slat': 'lat'})
+data2 = data2.rename(columns={'elon': 'lon', 'elat': 'lat'})
+
+# create new status column
+data['status'] = 'start'
+data2['status'] = 'end'
+
+# concat into one df
+all_dfs = [data, data2]
+all_torando_data = pd.concat(all_dfs).reset_index(drop = True).sort_values('index')
+
+# drop values where latitude or longitude are equal to 0
+coor_index = all_torando_data[(all_torando_data['lat'] == 0) & (all_torando_data['lon'] == 0)].index
+all_torando_data.drop(coor_index , inplace=True)
+
+# save to .csv file
+all_torando_data.to_csv('1950-2021_all_tornadoes_edited.csv')
+                                </code></pre>
+                              </body>
+
+                        <p style="line-height:100%"><span style="font-size: 15px">
+                            After this was complete, I loaded the data into Tableau to create an interactive dashboard. There are filters where the user can select different F ratings/EF ratings and a slider to select a range of years. The background was created using both Canva and GIMP (a free and open-source editor).
+                            <br /><br />
+                            Check out the full Tableau dashboard <a href="https://public.tableau.com/views/RecordedTornadoPaths/RecordedTornadoes?:language=en-US&:display_count=n&:origin=viz_share_link" target="_blank" rel="noopener noreferrer">here</a>!
+                            <br /><br />
+                            <img src="images/tornado_dashboard.gif" alt="" width="700" />
+                        </p></span>
+
+
+                        <h3>Takeaways</h3>
+                        <p style="line-height:100%"><span style="font-size: 15px">
+                            <br /><br />
+
+                            <br /><br />
+
+                            <br /><br /> 
+                            <strong>Packages Used:</strong>
+                            <br />
+                            ⬥ pandas
+                            <br />
+                            ⬥ numpy
+                            <br />
+                            ⬥ geopy
+                            <br />
+                            ⬥ matplotlib
+                            <br />
+                            ⬥ plotly
+                            <br />
+                            ⬥ calplot
+                            <br /><br />
+                            <strong>Skills Used:</strong>
+                            <br />
+                            ⬥ DataFrame creation
+                            <br />
+                            ⬥ Data cleaning (nulls, changing column names, data types, etc.)
+                            <br />
+                            ⬥ Data transformation (concat strings into new columns, creating categorical variables, new columns based on mathematical calc)
+                            <br />
+                            ⬥ Loops
+                            <br />
+                            ⬥ Filtering
+                            <br />
+                            ⬥ Data visualization (bar charts (stacked and unstacked), maps, heatmaps)
+                            <br /><br />
+                            <!--<a href="portfolio.html#one">Back to Top</a>-->
+                        </p></span>
+
+					</section>
+
+                </div>
+
+		<!-- Footer -->
+			<footer id="footer">
+				<div class="inner">
+					<ul class="icons">
+						<li><a href="https://www.linkedin.com/in/sarahsprick/" class="icon brands alt fa-linkedin" target="_blank" rel="noopener noreferrer"><span class="label">linkedin</span></a></li>
+						<li><a href="https://github.com/sarahsprick" class="icon brands fa-github" target="_blank" rel="noopener noreferrer"><span class="label">Github</span></a></li>
+						<li><a href="https://public.tableau.com/app/profile/sarah5637" target="_blank" rel="noopener noreferrer"><img src="images/icons/tableau-icon - Edited.png" width="25"></a></li>
+						<li><a href="mailto:sarahsprick99@gmail.com" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+					</ul>
+					<ul class="copyright">
+						<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.poptrox.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
