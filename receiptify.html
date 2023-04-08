@@ -1,0 +1,166 @@
+<!DOCTYPE HTML>
+<!--
+	Strata by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Sarah Sprick Portfolio</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<div class="inner">
+					<a class="image avatar"><img src="images/IMG_4222.jpg" alt="" /></a>
+					<h1><strong>Sarah Sprick</strong></h1>
+					<p >Data Analytics</p>
+                    <br />
+					<a href="index.html" class="button" style="background-color: white; opacity: .4">Home</a>
+					<br />
+					<br />
+					<!--<a href="portfolio.html" class="button" style="background-color: white; opacity: .4">Full Portfolio</a>-->
+				</div>
+			</header>
+
+		<!-- Main -->
+			<div id="main">
+
+                    <section id="Spotify Top Songs">
+                        <h2>Spotify Top Songs&nbsp;&nbsp;&nbsp;<img src="images/icons/python - Edited.png" alt="" width="30" />&nbsp;<img src="images/icons/tableau-icon - Edited.png" alt="" width="30" /></h2> 
+                        <h5>April 2023</h5>
+                        <br />
+                        <ul class="actions">
+                            <li><a href="https://public.tableau.com/views/SpotifyTopSongs_16806655948890/Dashboard1?:language=en-US&:display_count=n&:origin=viz_share_link" target="_blank" rel="noopener noreferrer" class="button">Tableau Dashboard
+                            </a></li>
+                        </ul>
+						<p style="line-height:100%"><span style="font-size: 15px">
+                            Last year, I created a project where I attempted to recreate my <a href="spotify.html" target="_blank" rel="noopener noreferrer">Spotify Wrapped</a> using the Spotify Web API. It is amazing that Spotify offers this tool and allows users to easily access their streaming history and analytics. Wanting to explore this further, I used the knowledge gained from that project to explore my short-term streaming history.
+                        </p></span>
+                      
+                        <h3>Data</h3>
+                        <br />
+
+
+                        <head>
+                            <link rel="stylesheet"
+                                  href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+                            <script>hljs.initHighlightingOnLoad();</script>
+                          </head>
+                          <body>
+                            <pre><code class="python">
+# import packages
+import pandas as pd
+import spotipy
+from spotipy.oauth2 import SpotifyOAuth
+import requests
+
+# initiate sp object
+sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id = ####
+                                               , client_secret = ####
+                                               , redirect_uri = 'http://localhost:9000'
+                                               , scope = 'user-top-read'))
+
+# used sp.current_user_top_tracks() to get the top tracks for my account for the short short-term
+top_tracks_short = sp.current_user_top_tracks(limit = 30, offset  = 0, time_range = 'short_term')
+
+# created an empty list that will have the track id appended as the function loops over the dictionary
+def get_track_ids(time_frame):
+    track_ids = []
+    for song in time_frame['items']:
+        track_ids.append(song['id'])
+    return track_ids
+
+track_ids = get_track_ids(top_tracks_short)
+
+# created a function to get the track features and all information in now in a DataFrame called df_album
+def get_track_features(id):
+    meta = sp.track(id)
+    name = meta['name']
+    album = meta['album']['name']
+    artist = meta['album']['artists'][0]['name']
+    track_uri = meta['id']
+    track_info = [track_uri, name, album, artist]
+    return track_info
+
+tracks = []
+
+for i in range(len(track_ids)):
+    track2 = get_track_features(track_ids[i])
+    tracks.append(track2)
+
+# converted the tracks list into a DataFrame called df_album   
+df_album = pd.DataFrame(tracks, columns = ['track_uri', 'name', 'album', 'artist'])
+df_album = df_album.drop_duplicates().rename(columns={'name': 'track_name', 'artist': 'artist_name'}).sort_values(by = 'track_uri').reset_index(drop = True)
+    
+# get song features, created a blank dictionary called dict_feat which will have the track_uri and features appended to it
+dict_feat = {}
+track_uris = track_ids
+
+for t_uri in track_uris:
+    dict_feat[t_uri] = {"features":[]}
+    f = requests.get(BASE_URL + 'audio-features/' + t_uri, headers=headers)
+    f = f.json()
+    dict_feat[t_uri]['features'] = f
+
+df_feat = pd.DataFrame.from_dict(dict_feat, orient='index')
+df_feat.insert(0, 'track_uri', df_feat.index)
+df_feat.reset_index(inplace=True, drop=True)
+
+feat = df_feat['features'].apply(pd.Series)
+df_features = pd.concat([df_feat, feat], axis = 1)
+df_features = df_features.drop(['time_signature', 'analysis_url', 'track_href', 'uri', 'id', 'type', 'features'], axis = 1).sort_values(by = 'track_uri').reset_index(drop = True)
+
+# created a DataFrame called api_features that is a combination of df_album and df_features
+pd.set_option('display.max_columns', None)
+api_features = pd.concat([df_genre, df_album, df_features], axis = 1, sort=False)
+
+# to csv
+api_features.to_csv('spotify.csv')
+                                </code></pre>
+                          </body>
+
+                          <h3><br />Visualization</h3>
+                          <br />
+                          <p style="line-height:100%"><span style="font-size: 15px">
+                            I used my short-term streaming history and created an interactive infographic in Tableau. This visual was inspired by <a href="https://receiptify.herokuapp.com/" target="_blank" rel="noopener noreferrer">Receiptify</a>, a tool created by Michelle Liu, which inputs your Spotify streaming history into an appealing receipt-like graphic that can be shared on social media. 
+                            <br /><br />
+                            To create a similar visual, I used Canva and GIMP for the background image in my Tableau dashboard. This visualization was fun because I had the opportunity to play around with new fonts and display methods. The songs in the visual are clickable and will take you to Spotify to listen.
+                        </p></span>
+
+                        <div class='tableauPlaceholder' id='viz1680991717490' style='position: relative'><noscript><a href='#'><img alt='Dashboard 1 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Sp&#47;SpotifyTopSongs_16806655948890&#47;Dashboard1&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='SpotifyTopSongs_16806655948890&#47;Dashboard1' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Sp&#47;SpotifyTopSongs_16806655948890&#47;Dashboard1&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='en-US' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1680991717490');                    var vizElement = divElement.getElementsByTagName('object')[0];                    if ( divElement.offsetWidth > 800 ) { vizElement.style.width='710px';vizElement.style.height='1022px';} else if ( divElement.offsetWidth > 500 ) { vizElement.style.width='710px';vizElement.style.height='1022px';} else { vizElement.style.width='100%';vizElement.style.height='1677px';}                     var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+
+					</section>
+
+                </div>
+
+		<!-- Footer -->
+			<footer id="footer">
+				<div class="inner">
+					<ul class="icons">
+						<li><a href="https://www.linkedin.com/in/sarahsprick/" class="icon brands alt fa-linkedin" target="_blank" rel="noopener noreferrer"><span class="label">linkedin</span></a></li>
+						<li><a href="https://github.com/sarahsprick" class="icon brands fa-github" target="_blank" rel="noopener noreferrer"><span class="label">Github</span></a></li>
+						<li><a href="https://public.tableau.com/app/profile/sarah5637" target="_blank" rel="noopener noreferrer"><img src="images/icons/tableau-icon - Edited.png" width="25"></a></li>
+						<li><a href="mailto:sarahsprick99@gmail.com" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+					</ul>
+					<ul class="copyright">
+						<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.poptrox.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
